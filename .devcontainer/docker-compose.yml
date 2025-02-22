@@ -1,5 +1,8 @@
 services:
   prefect-pack:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: selora/prefect-pack:latest
     command: sleep infinity
     volumes:
