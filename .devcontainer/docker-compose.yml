@@ -1,0 +1,50 @@
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/base:1.0.19-bookworm
+    command: sleep infinity
+    volumes:
+      - ..:/workspaces/prefect-pack:cached
+    networks:
+      - prefect-pack-network
+
+
+  ongdb:
+    image: graphfoundation/ongdb:1.0.5 
+    container_name: ongdb-dev
+    restart: unless-stopped
+    ports:
+      - "7474:7474"  # Web UI
+      - "7687:7687"  # Bolt Protocol
+    environment:
+      - ONGDB_dbms_memory_pagecache_size=512M
+      - ONGDB_dbms_memory_heap_initial_size=512M
+      - ONGDB_dbms_memory_heap_max_size=1G
+      - ONGDB_AUTH=none  # Disable authentication for dev
+    volumes:
+      - ongdb_data:/data
+    networks:
+      - prefect-pack-network
+
+  ongdb_test:
+    image: graphfoundation/ongdb:1.0.5 
+    container_name: ongdb-test
+    restart: unless-stopped
+    ports:
+      - "7475:7474"  # Web UI
+      - "7688:7687"  # Bolt Protocol
+    environment:
+      - ONGDB_dbms_memory_pagecache_size=512M
+      - ONGDB_dbms_memory_heap_initial_size=512M
+      - ONGDB_dbms_memory_heap_max_size=1G
+      - ONGDB_AUTH=none  # Disable authentication for dev
+    volumes:
+      - ongdb_data_test:/data
+    networks:
+      - prefect-pack-network
+
+volumes:
+  ongdb_data:
+  ongdb_data_test:
+
+networks:
+  prefect-pack-network:
