@@ -1,6 +1,6 @@
 services:
-  devcontainer:
-    image: mcr.microsoft.com/devcontainers/base:1.0.19-bookworm
+  prefect-pack:
+    image: selora/prefect-pack:latest
     command: sleep infinity
     volumes:
       - ..:/workspaces/prefect-pack:cached

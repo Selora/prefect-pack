@@ -3,7 +3,7 @@
 {
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   //"image": "mcr.microsoft.com/devcontainers/base:1.0.19-bookworm",
-  "service": "devcontainer",
+  "service": "prefect-pack",
   "workspaceFolder": "/workspaces/prefect-pack",
   "shutdownAction": "stopCompose",
   "remoteUser": "vscode",
