@@ -1,0 +1,28 @@
+name: CI
+
+env:
+  # enable colored output - see https://github.com/pytest-dev/pytest/issues/7443
+  PY_COLORS: 1
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pre-commit:
+    name: Run pre-commit checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - uses: extractions/setup-just@v2
+      - name: Run pre-commit
+        run: just lint

@@ -1,0 +1,49 @@
+name: Run Tests
+
+env:
+  # enable colored output - see https://github.com/pytest-dev/pytest/issues/7443
+  PY_COLORS: 1
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - .github/workflows/tests.yml
+      - src/**
+      - tests/**
+      - pyproject.toml
+
+  pull_request:
+    paths:
+      - .github/workflows/tests.yml
+      - src**
+      - tests/**
+      - pyproject.toml
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run_tests:
+    name: Run Tests on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ['3.10', '3.11', '3.12']
+        
+        
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          python-version: ${{ matrix.python-version }}
+      - name: Run test
+        run: make test
+        if: ${{ !github.event.pull_request.head.repo.fork }}
