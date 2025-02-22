@@ -6,7 +6,7 @@ services:
     image: selora/prefect-pack:latest
     command: sleep infinity
     volumes:
-      - ..:/workspaces/prefect-pack:cached
+      - ..:/workspaces/prefect-pack:rw
     networks:
       - prefect-pack-network
 
